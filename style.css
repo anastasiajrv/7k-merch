@@ -556,7 +556,8 @@ body {
   width: 100%;
   flex: 1;
   min-height: 0;
-  object-fit: cover;
+  object-fit: contain;
+  background: #fff;
   display: block;
   cursor: zoom-in;
   transition: transform 0.3s;
@@ -576,7 +577,8 @@ body {
 .modal__thumb {
   flex: 1;
   aspect-ratio: 1;
-  object-fit: cover;
+  object-fit: contain;
+  background: #fff;
   cursor: pointer;
   border-radius: 8px;
   opacity: 0.4;
