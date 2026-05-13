@@ -38,14 +38,11 @@ const products = [
     description: 'Лёгкие беговые шорты с эластичным поясом и утягивающим шнурком. Боковые карманы на молнии. Влагоотводящая ткань обеспечивает комфорт при любой нагрузке.',
     material: 'Состав: 85% полиэстер, 15% эластан · Плотность: 130 г/м²',
     images: [
-      makeThumb('#00CADF', '#0E2841', 'ШОРТЫ'),
-      makeThumb('#0E2841', '#00CADF', 'BACK'),
-      makeThumb('#1C39E0', '#FFFFFF', 'ДЕТАЛЬ'),
+      'images/shorts-front.png',
+      'images/shorts-back.png',
     ],
     colors: [
-      { name: 'Голубой', hex: '#00CADF' },
-      { name: 'Тёмно-синий', hex: '#0E2841' },
-      { name: 'Синий', hex: '#1C39E0' },
+      { name: 'Чёрный', hex: '#111111' },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     sizeChart: {
