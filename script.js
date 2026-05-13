@@ -221,13 +221,15 @@ function openModal(id) {
 
   document.getElementById('modalContent').innerHTML = `
     <div class="modal__gallery">
-      <img class="modal__main-img" id="modalMainImg"
-           src="${p.images[0]}" alt="${p.name}"
-           onclick="openLightbox(currentImgIndex)" title="Нажмите для увеличения">
-      ${p.images.length > 1 ? `
-        <button class="gallery__arrow gallery__arrow--prev" onclick="galleryNav(-1)">&#8249;</button>
-        <button class="gallery__arrow gallery__arrow--next" onclick="galleryNav(1)">&#8250;</button>
-      ` : ''}
+      <div class="modal__img-wrap">
+        <img class="modal__main-img" id="modalMainImg"
+             src="${p.images[0]}" alt="${p.name}"
+             onclick="openLightbox(currentImgIndex)" title="Нажмите для увеличения">
+        ${p.images.length > 1 ? `
+          <button class="gallery__arrow gallery__arrow--prev" onclick="galleryNav(-1)">&#8249;</button>
+          <button class="gallery__arrow gallery__arrow--next" onclick="galleryNav(1)">&#8250;</button>
+        ` : ''}
+      </div>
       ${thumbsHTML}
     </div>
     <div class="modal__info">

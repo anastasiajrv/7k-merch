@@ -553,13 +553,23 @@ body {
   position: relative;
 }
 
-.modal__main-img {
-  width: 100%;
+.modal__img-wrap {
   flex: 1;
   min-height: 0;
-  object-fit: contain;
-  object-position: center center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   background: #fff;
+}
+
+.modal__main-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   display: block;
   cursor: zoom-in;
   transition: transform 0.3s;
