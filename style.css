@@ -545,11 +545,12 @@ body {
 
 /* Gallery */
 .modal__gallery {
-  background: #0A1520;
+  background: #fff;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 24px 0 0 24px;
+  position: relative;
 }
 
 .modal__main-img {
@@ -557,6 +558,7 @@ body {
   flex: 1;
   min-height: 0;
   object-fit: contain;
+  object-position: center center;
   background: #fff;
   display: block;
   cursor: zoom-in;
