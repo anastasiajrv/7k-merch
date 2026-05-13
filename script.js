@@ -4,6 +4,7 @@ const products = [
     name: 'Майка',
     category: 'Спортивная футболка',
     badge: null,
+    gender: 'unisex',
     description: 'Не просто футболка — твой второй скин на тренировке. Дышащая технология отводит влагу, плоские швы не натирают. Надел — забыл — победил.',
     material: 'Состав: 90% полиэстер, 10% эластан · Плотность: 160 г/м²',
     // Замените на реальные фото: images/tshirt-1.jpg, images/tshirt-2.jpg, images/tshirt-3.jpg
@@ -35,6 +36,7 @@ const products = [
     name: 'Женские шорты',
     category: 'Спортивные шорты · Женские',
     badge: null,
+    gender: 'women',
     description: 'Созданы для тех, кто не останавливается. Цельнокроеный пояс держит форму, эластичная ткань движется вместе с тобой. Твоя скорость — наша разработка.',
     material: 'Состав: 85% полиэстер, 15% эластан · Плотность: 130 г/м²',
     images: [
@@ -63,6 +65,7 @@ const products = [
     name: 'Топ',
     category: 'Спортивный топ',
     badge: 'Новинка',
+    gender: 'women',
     badgeNew: true,
     description: 'Бесшовный топ, который поддерживает и не сдавливает. Для йоги, пилатеса, зала — везде выглядит и ощущается как надо. Мягко. Уверенно. По-чемпионски.',
     material: 'Состав: 80% полиамид, 20% эластан · Плотность: 200 г/м²',
@@ -93,6 +96,7 @@ const products = [
     name: 'Лонгслив',
     category: 'Рашгард с длинным рукавом',
     badge: null,
+    gender: 'unisex',
     description: 'Компрессия, которая реально работает. Анатомический крой обнимает мышцы, снижает усталость, держит тепло в прохладную погоду. Тренируйся дольше.',
     material: 'Состав: 88% полиэстер, 12% эластан · Плотность: 180 г/м²',
     images: [
@@ -123,6 +127,7 @@ const products = [
     name: 'Худи',
     category: 'Спортивное худи',
     badge: null,
+    gender: 'unisex',
     description: 'После финиша. Перед стартом. Всегда в ходу. Тёплый флис, вышивка 7K на груди, карман для всего нужного. Разминка начинается с правильного худи.',
     material: 'Состав: 65% хлопок, 35% полиэстер · Плотность: 320 г/м²',
     images: [
@@ -165,10 +170,24 @@ function makeThumb(bg, fg, label) {
   return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
 }
 
+// ===== FILTER =====
+let activeFilter = 'all';
+
+function setFilter(btn, filter) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCatalog();
+}
+
 // ===== RENDER CATALOG =====
 function renderCatalog() {
   const grid = document.getElementById('productsGrid');
-  grid.innerHTML = products.map(p => `
+  const filtered = activeFilter === 'all' ? products
+    : activeFilter === 'women' ? products.filter(p => p.gender === 'women')
+    : products.filter(p => p.gender === 'men' || p.gender === 'unisex');
+
+  grid.innerHTML = filtered.map(p => `
     <article class="product-card" onclick="openModal('${p.id}')">
       <div class="product-card__img-wrap">
         <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
@@ -186,6 +205,9 @@ function renderCatalog() {
       </div>
     </article>
   `).join('');
+
+  // Re-init scroll reveal for new cards
+  initReveal();
 }
 
 // ===== DETAIL PANEL =====
@@ -342,4 +364,58 @@ function initReveal() {
 
 // ===== INIT =====
 renderCatalog();
-initReveal();
+
+// ===== TOUCH SWIPE for gallery =====
+(function() {
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  document.addEventListener('touchstart', e => {
+    const box = e.target.closest('.detail-img-box');
+    if (!box) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    const box = e.target.closest('.detail-img-box');
+    if (!box || !currentImages.length) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      galleryNav(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+})();
+
+// ===== MOBILE STICKY ORDER BUTTON =====
+function updateStickyOrder(productName) {
+  let sticky = document.getElementById('mobileStickyOrder');
+  if (!sticky) {
+    sticky = document.createElement('div');
+    sticky.id = 'mobileStickyOrder';
+    sticky.className = 'mobile-sticky-order';
+    document.body.appendChild(sticky);
+  }
+  sticky.innerHTML = `
+    <button class="btn btn--order" onclick="orderProduct('${productName}')">Заказать</button>
+    <button class="btn btn--size-chart" onclick="openLightbox(-1)">Размеры</button>
+  `;
+  sticky.style.display = 'flex';
+}
+
+// Hook into openModal to show sticky button
+const _origOpenModal = openModal;
+window.openModal = function(id) {
+  _origOpenModal(id);
+  const p = products.find(x => x.id === id);
+  if (p) updateStickyOrder(p.name);
+};
+
+// Hide sticky when detail panel closes
+const _origCloseDetail = closeDetail;
+window.closeDetail = function() {
+  _origCloseDetail();
+  const sticky = document.getElementById('mobileStickyOrder');
+  if (sticky) sticky.style.display = 'none';
+};

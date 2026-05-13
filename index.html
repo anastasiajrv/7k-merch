@@ -56,6 +56,11 @@
         </div>
         <p class="catalog__count">5 позиций</p>
       </div>
+      <div class="catalog__filters">
+        <button class="filter-btn active" onclick="setFilter(this, 'all')">Все</button>
+        <button class="filter-btn" onclick="setFilter(this, 'women')">Женщинам</button>
+        <button class="filter-btn" onclick="setFilter(this, 'men')">Мужчинам</button>
+      </div>
       <div class="products-grid" id="productsGrid"></div>
       <div id="detailPanel" class="detail-panel">
         <button class="detail-close" onclick="closeDetail()" aria-label="Закрыть">✕</button>
