@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7K TEAM × Oraz — Спортивная коллекция</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HERO — full screen, no header -->
+  <section class="hero">
+    <div class="hero__noise"></div>
+
+    <!-- TOP-LEFT: title + desc -->
+    <div class="hero__top">
+      <h1 class="hero__title">Форма <span class="hero__title-accent">победителей</span></h1>
+      <p class="hero__desc">
+        7KTEAM совместно с Oraz разработали спортивные вещи,
+        в которых хочется тренироваться. Высокое качество,
+        потому что победы начинаются с комфорта.
+      </p>
+      <a href="#catalog" class="hero__btn">Смотреть коллекцию</a>
+    </div>
+
+    <!-- RIGHT: partner logo circles -->
+    <div class="hero__partners">
+      <div class="partner-circle">
+        <img src="images/logo-7k.png" alt="7K Team" class="partner-logo partner-logo--7k" />
+      </div>
+      <div class="partner-circle">
+        <img src="images/logo-oraz.png" alt="Oraz" class="partner-logo partner-logo--oraz" />
+      </div>
+    </div>
+  </section>
+
+  <!-- CATALOG -->
+  <section class="catalog" id="catalog">
+    <div class="container">
+      <div class="catalog__header reveal">
+        <div>
+          <p class="catalog__eyebrow">Коллекция</p>
+          <h2 class="catalog__title">Выбери своё</h2>
+        </div>
+        <p class="catalog__count">5 позиций</p>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="container cta-banner__inner">
+      <div>
+        <p class="cta-banner__eyebrow">Совместная коллекция</p>
+        <h3 class="cta-banner__title">7K Team × Oraz</h3>
+        <p class="cta-banner__text">Есть вопросы по размерам или хочешь заказать для команды?<br>Напишите нам, ответим быстро.</p>
+      </div>
+      <a href="mailto:info@7kteam.com" class="btn btn--glow">Написать нам</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <img src="images/logo-collab.png" alt="7K Team" class="footer__logo-img" />
+        <span>× Oraz</span>
+      </div>
+      <p>© 2026 7K Team & Oraz. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal__close" id="modalClose" aria-label="Закрыть">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="modal__content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+    <button class="lb__close" onclick="closeLightbox()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button class="lb__arrow lb__arrow--prev" onclick="lightboxNav(-1)">&#8249;</button>
+    <img id="lightboxImg" src="" alt="фото" />
+    <button class="lb__arrow lb__arrow--next" onclick="lightboxNav(1)">&#8250;</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
