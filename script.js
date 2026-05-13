@@ -188,7 +188,7 @@ function renderCatalog() {
   `).join('');
 }
 
-// ===== MODAL =====
+// ===== DETAIL PANEL =====
 let currentImages = [];
 let currentImgIndex = 0;
 let currentSizeChartImage = 'images/size-chart.png';
@@ -201,14 +201,23 @@ function openModal(id) {
   currentImgIndex = 0;
   currentSizeChartImage = p.sizeChartImage || 'images/size-chart.png';
 
-  const thumbsHTML = `<div class="modal__thumbs">
-    ${p.images.map((src, i) => `
-      <img class="modal__thumb ${i === 0 ? 'active' : ''}"
-           src="${src}" alt="${p.name} фото ${i + 1}"
-           onclick="goToImg(${i})">
-    `).join('')}
-  </div>`;
+  // Image box: first image + arrows
+  const imgBox = document.getElementById('detailImgBox');
+  imgBox.innerHTML = `
+    <img id="modalMainImg" src="${p.images[0]}" alt="${p.name}" onclick="openLightbox(currentImgIndex)" title="Нажмите для увеличения">
+    ${p.images.length > 1 ? `
+      <button class="gallery__arrow gallery__arrow--prev" onclick="galleryNav(-1)">&#8249;</button>
+      <button class="gallery__arrow gallery__arrow--next" onclick="galleryNav(1)">&#8250;</button>
+    ` : ''}
+  `;
 
+  // Thumbnails
+  const thumbsEl = document.getElementById('detailThumbs');
+  thumbsEl.innerHTML = p.images.length > 1 ? p.images.map((src, i) => `
+    <img class="detail-thumb ${i === 0 ? 'active' : ''}" src="${src}" alt="${p.name} ${i+1}" onclick="goToImg(${i})">
+  `).join('') : '';
+
+  // Info panel
   const colorsHTML = p.colors.map((c, i) =>
     `<button class="color-opt${c.border ? ' white-border' : ''}${i === 0 ? ' active' : ''}"
        style="background:${c.hex}" title="${c.name}"
@@ -219,43 +228,32 @@ function openModal(id) {
     `<button class="size-btn" onclick="selectSize(this)">${s}</button>`
   ).join('');
 
-  document.getElementById('modalContent').innerHTML = `
-    <div class="modal__gallery">
-      <div class="modal__img-wrap">
-        <img class="modal__main-img" id="modalMainImg"
-             src="${p.images[0]}" alt="${p.name}"
-             onclick="openLightbox(currentImgIndex)" title="Нажмите для увеличения">
-        ${p.images.length > 1 ? `
-          <button class="gallery__arrow gallery__arrow--prev" onclick="galleryNav(-1)">&#8249;</button>
-          <button class="gallery__arrow gallery__arrow--next" onclick="galleryNav(1)">&#8250;</button>
-        ` : ''}
+  document.getElementById('detailInfo').innerHTML = `
+    <div class="modal__cat">${p.category}</div>
+    <h2 class="modal__name">${p.name}</h2>
+    <p class="modal__desc">${p.description}</p>
+    <div class="modal__material">${p.material}</div>
+    <div class="modal__section-label">Цвет <span id="colorLabel">${p.colors[0].name}</span></div>
+    <div class="modal__colors">${colorsHTML}</div>
+    <div class="modal__section-label">Размер</div>
+    <div class="modal__sizes">${sizesHTML}</div>
+    <div class="modal__order">
+      <div class="modal__order-buttons">
+        <button class="btn btn--order" onclick="orderProduct('${p.name}')">Заказать</button>
+        <button class="btn btn--size-chart" onclick="openLightbox(-1)">Размерная сетка</button>
       </div>
-      ${thumbsHTML}
-    </div>
-    <div class="modal__info">
-      <div class="modal__cat">${p.category}</div>
-      <h2 class="modal__name">${p.name}</h2>
-      <p class="modal__desc">${p.description}</p>
-      <div class="modal__material">${p.material}</div>
-
-      <div class="modal__section-label">Цвет <span id="colorLabel">${p.colors[0].name}</span></div>
-      <div class="modal__colors">${colorsHTML}</div>
-
-      <div class="modal__section-label">Размер</div>
-      <div class="modal__sizes">${sizesHTML}</div>
-
-      <div class="modal__order">
-        <div class="modal__order-buttons">
-          <button class="btn btn--order" onclick="orderProduct('${p.name}')">Заказать</button>
-          <button class="btn btn--size-chart" onclick="openLightbox(-1)">Размерная сетка</button>
-        </div>
-        <p class="modal__order-note">Мы свяжемся с вами для уточнения деталей заказа</p>
-      </div>
+      <p class="modal__order-note">Мы свяжемся с вами для уточнения деталей заказа</p>
     </div>
   `;
 
-  document.getElementById('modalOverlay').classList.add('active');
-  document.body.style.overflow = 'hidden';
+  // Open panel + scroll
+  const panel = document.getElementById('detailPanel');
+  panel.classList.add('open');
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
 }
 
 function galleryNav(dir) {
@@ -270,7 +268,7 @@ function goToImg(index) {
     main.src = currentImages[index];
     main.onclick = () => openLightbox(index);
   }
-  document.querySelectorAll('.modal__thumb').forEach((t, i) => {
+  document.querySelectorAll('.detail-thumb').forEach((t, i) => {
     t.classList.toggle('active', i === index);
   });
 }
@@ -278,14 +276,9 @@ function goToImg(index) {
 function openLightbox(index) {
   const src = index === -1 ? currentSizeChartImage : currentImages[index];
   const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightboxImg');
-  lbImg.src = src;
+  document.getElementById('lightboxImg').src = src;
   lb.classList.add('active');
-
-  // показываем стрелки только для галереи товара
-  const arrows = lb.querySelectorAll('.lb__arrow');
-  arrows.forEach(a => a.style.display = index === -1 ? 'none' : '');
-
+  lb.querySelectorAll('.lb__arrow').forEach(a => a.style.display = index === -1 ? 'none' : '');
   if (index !== -1) currentImgIndex = index;
 }
 
@@ -297,11 +290,6 @@ function lightboxNav(dir) {
   currentImgIndex = (currentImgIndex + dir + currentImages.length) % currentImages.length;
   document.getElementById('lightboxImg').src = currentImages[currentImgIndex];
   goToImg(currentImgIndex);
-}
-
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('active');
-  document.body.style.overflow = '';
 }
 
 function selectColor(btn, name) {
@@ -327,14 +315,10 @@ function orderProduct(name) {
 }
 
 // ===== EVENTS =====
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('modalOverlay').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeModal();
-});
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (document.getElementById('lightbox').classList.contains('active')) closeLightbox();
-    else closeModal();
+    else closeDetail();
   }
   if (e.key === 'ArrowLeft') lightboxNav(-1);
   if (e.key === 'ArrowRight') lightboxNav(1);
