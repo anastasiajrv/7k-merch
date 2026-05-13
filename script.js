@@ -32,8 +32,8 @@ const products = [
   },
   {
     id: 'shorts',
-    name: 'Шорты',
-    category: 'Спортивные шорты',
+    name: 'Женские шорты',
+    category: 'Спортивные шорты · Женские',
     badge: null,
     description: 'Лёгкие беговые шорты с эластичным поясом и утягивающим шнурком. Боковые карманы на молнии. Влагоотводящая ткань обеспечивает комфорт при любой нагрузке.',
     material: 'Состав: 85% полиэстер, 15% эластан · Плотность: 130 г/м²',
@@ -45,6 +45,7 @@ const products = [
       { name: 'Чёрный', hex: '#111111' },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    sizeChartImage: 'images/shorts-size-chart.jpg',
     sizeChart: {
       headers: ['Размер', 'Талия (см)', 'Бёдра (см)', 'Длина (см)'],
       rows: [
@@ -190,6 +191,7 @@ function renderCatalog() {
 // ===== MODAL =====
 let currentImages = [];
 let currentImgIndex = 0;
+let currentSizeChartImage = 'images/size-chart.png';
 
 function openModal(id) {
   const p = products.find(x => x.id === id);
@@ -197,6 +199,7 @@ function openModal(id) {
 
   currentImages = p.images;
   currentImgIndex = 0;
+  currentSizeChartImage = p.sizeChartImage || 'images/size-chart.png';
 
   const thumbsHTML = `<div class="modal__thumbs">
     ${p.images.map((src, i) => `
@@ -271,7 +274,7 @@ function goToImg(index) {
 }
 
 function openLightbox(index) {
-  const src = index === -1 ? 'images/size-chart.png' : currentImages[index];
+  const src = index === -1 ? currentSizeChartImage : currentImages[index];
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightboxImg');
   lbImg.src = src;
