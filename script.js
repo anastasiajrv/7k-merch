@@ -513,7 +513,7 @@ async function submitOrder() {
       <div class="order-modal__success-icon">🎉</div>
       <h3>Спасибо за заказ!</h3>
       <p>Наш менеджер свяжется с вами для решения вопросов по оплате и доставке</p>
-      <button class="btn btn--order" onclick="closeOrderModal()">Вернуться в магазин</button>
+      <button class="btn btn--order" onclick="closeOrderModal(); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Вернуться в магазин</button>
     </div>
   `;
 }
