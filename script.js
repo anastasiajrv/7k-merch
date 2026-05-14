@@ -462,8 +462,8 @@ function validateOrderForm() {
   const telegram = (document.getElementById('om-telegram')?.value || '').trim();
 
   const nameValid     = name.length >= 2;
-  const phoneValid    = /^[+78]\d{9,10}$/.test(phone);
-  const telegramValid = /^@\w{2,}$/.test(telegram);
+  const phoneValid    = /^(\+7|[78])\d{10}$/.test(phone);
+  const telegramValid = telegram.startsWith('@') && telegram.length >= 3;
 
   const btn = document.getElementById('om-submit');
   if (btn) {
