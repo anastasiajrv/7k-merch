@@ -15,17 +15,7 @@ const products = [
       { name: 'Чёрный', hex: '#111111' },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    sizeChart: {
-      headers: ['Размер', 'Талия (см)', 'Бёдра (см)', 'Длина (см)'],
-      rows: [
-        ['XS', '70–74', '90–94',  '40'],
-        ['S',  '74–78', '94–98',  '42'],
-        ['M',  '78–82', '98–102', '44'],
-        ['L',  '82–86', '102–106','46'],
-        ['XL', '86–90', '106–110','48'],
-        ['XXL','90–94', '110–114','50'],
-      ],
-    },
+    sizeChartImage: 'images/shorts-men-size-chart.jpg',
   },
   {
     id: 'shorts',
@@ -124,21 +114,10 @@ const products = [
       { name: 'Голубой', hex: '#B8D4E8', images: ['images/longsleeve-blue-2.png', 'images/longsleeve-blue-1.png'] },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    sizeChart: {
-      type: 'html',
-      sections: [
-        {
-          title: 'Мужские размеры',
-          headers: ['Размер', 'Обхват груди', 'Длина'],
-          rows: [['XS–S', '86–92 см', '64–66 см'], ['M–L', '92–100 см', '68–70 см'], ['XL–XXL', '100–108 см', '72–74 см']],
-        },
-        {
-          title: 'Женские размеры',
-          headers: ['Размер', 'Обхват груди', 'Длина'],
-          rows: [['XS–S', '80–88 см', '62–64 см'], ['M–L', '88–96 см', '66–68 см'], ['XL–XXL', '96–104 см', '70–72 см']],
-        },
-      ],
-    },
+    sizeChartImages: [
+      'images/longsleeve-size-chart-men.jpg',
+      'images/longsleeve-size-chart-women.jpg',
+    ],
   },
 ];
 
@@ -199,7 +178,8 @@ function renderCatalog() {
 // ===== DETAIL PANEL =====
 let currentImages = [];
 let currentImgIndex = 0;
-let currentSizeChartImage = 'images/size-chart.png';
+let currentSizeChartImage = null;
+let currentSizeChartImages = null;
 let currentProduct = null;
 
 function renderGallery(images) {
@@ -226,6 +206,7 @@ function openModal(id) {
   currentProduct = p;
   currentImgIndex = 0;
   currentSizeChartImage = p.sizeChartImage || null;
+  currentSizeChartImages = p.sizeChartImages || null;
 
   // Use first color's images if defined, else product images
   const defaultImages = (p.colors[0] && p.colors[0].images) ? p.colors[0].images : p.images;
@@ -296,22 +277,17 @@ function openLightbox(index) {
   if (index === -1) {
     // Size chart
     lb.querySelectorAll('.lb__arrow').forEach(a => a.style.display = 'none');
-    if (currentSizeChartImage) {
+    if (currentSizeChartImages && currentSizeChartImages.length) {
+      // Несколько картинок (муж + жен) — показываем обе стопкой
+      lbImg.style.display = 'none';
+      lbChart.style.display = 'block';
+      lbChart.innerHTML = currentSizeChartImages.map(src =>
+        `<img src="${src}" style="width:100%;border-radius:8px;display:block;">`
+      ).join('');
+    } else if (currentSizeChartImage) {
       lbImg.src = currentSizeChartImage;
       lbImg.style.display = 'block';
       lbChart.style.display = 'none';
-    } else if (currentProduct && currentProduct.sizeChart && currentProduct.sizeChart.type === 'html') {
-      lbImg.style.display = 'none';
-      lbChart.style.display = 'block';
-      lbChart.innerHTML = currentProduct.sizeChart.sections.map(s => `
-        <div class="lb__chart-section">
-          <h3 class="lb__chart-title">${s.title}</h3>
-          <table class="lb__chart-table">
-            <thead><tr>${s.headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
-            <tbody>${s.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
-          </table>
-        </div>
-      `).join('');
     } else {
       lbImg.src = 'images/size-chart.png';
       lbImg.style.display = 'block';
