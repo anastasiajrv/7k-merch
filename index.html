@@ -115,6 +115,11 @@
     <button class="lb__arrow lb__arrow--next" onclick="lightboxNav(1)">&#8250;</button>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <!-- ORDER MODAL -->
+  <div class="order-modal-overlay" id="orderModal" onclick="if(event.target===this)closeOrderModal()">
+    <div class="order-modal" id="orderModalContent"></div>
+  </div>
+
+  <script src="script.js?v=8"></script>
 </body>
 </html>

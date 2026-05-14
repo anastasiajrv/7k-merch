@@ -1036,3 +1036,207 @@ body {
 @media (min-width: 769px) {
   .mobile-sticky-order { display: none; }
 }
+
+/* ===== MODAL PRICE ===== */
+.modal__price {
+  font-family: var(--font-d);
+  font-size: 42px;
+  color: var(--cyan);
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+/* ===== GENDER TOGGLE ===== */
+.modal__gender {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.gender-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  font-family: var(--font-b);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--gray-4);
+  transition: all 0.18s var(--ease);
+}
+
+.gender-btn:hover:not(:disabled) {
+  border-color: var(--gray-4);
+  color: var(--white);
+}
+
+.gender-btn.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+.gender-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ===== DISABLED STATES ===== */
+.btn--order-disabled,
+.btn--order:disabled {
+  background: var(--gray-6) !important;
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.btn--size-chart-disabled,
+.btn--size-chart:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn--size-chart:disabled:hover {
+  background: transparent;
+}
+
+/* ===== ORDER MODAL ===== */
+.order-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, visibility 0.25s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 20px;
+}
+
+.order-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.order-modal {
+  background: var(--bg-card);
+  border: 1px solid rgba(28,57,224,0.35);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+}
+
+.order-modal__close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--white);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.order-modal__close:hover { background: rgba(232,89,24,0.4); }
+
+.order-modal__title {
+  font-family: var(--font-d);
+  font-size: 36px;
+  color: var(--white);
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.order-modal__summary {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px 16px;
+  margin-bottom: 24px;
+}
+
+.order-modal__summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.order-modal__summary-row:last-child { border-bottom: none; }
+
+.om-label { color: var(--gray-4); font-weight: 500; }
+.om-value { color: var(--white); font-weight: 600; }
+.om-price { color: var(--cyan); font-size: 15px; }
+
+.order-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.form-field input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: var(--font-b);
+  font-size: 14px;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-field input::placeholder { color: var(--gray-6); }
+.form-field input:focus { border-color: var(--blue); }
+
+/* Order success state */
+.order-modal__success {
+  text-align: center;
+  padding: 24px 0 8px;
+}
+
+.order-modal__success-icon { font-size: 52px; margin-bottom: 16px; }
+
+.order-modal__success h3 {
+  font-family: var(--font-d);
+  font-size: 40px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.order-modal__success p {
+  font-size: 14px;
+  color: var(--gray-4);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
