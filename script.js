@@ -68,14 +68,14 @@ const products = [
     description: 'Компрессия, которая реально работает. Анатомический крой обнимает мышцы, снижает усталость, держит тепло в прохладную погоду. Тренируйся дольше.',
     material: 'Состав: 88% полиэстер, 12% эластан · Плотность: 180 г/м²',
     images: [
-      makeThumb('#06090F', '#1C39E0', 'ЛОНГСЛИВ'),
-      makeThumb('#1C39E0', '#FFFFFF', 'BACK'),
-      makeThumb('#0E2841', '#00CADF', 'ДЕТАЛЬ'),
+      'images/longsleeve-graphite-2.png',
+      'images/longsleeve-graphite-1.png',
+      'images/longsleeve-blue-2.png',
+      'images/longsleeve-blue-1.png',
     ],
     colors: [
-      { name: 'Тёмный', hex: '#06090F' },
-      { name: 'Синий', hex: '#1C39E0' },
-      { name: 'Голубой', hex: '#00CADF' },
+      { name: 'Графит', hex: '#5A6472' },
+      { name: 'Голубой', hex: '#B8D4E8' },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     sizeChart: {
