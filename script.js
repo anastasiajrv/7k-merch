@@ -88,6 +88,29 @@ const products = [
     },
   },
   {
+    id: 'hoodie',
+    name: 'Худи',
+    category: 'Спортивное худи',
+    badge: null,
+    gender: 'unisex',
+    description: 'После финиша. Перед стартом. Всегда в ходу. Мягкий флис, фирменный принт на груди, свободный крой. Разминка начинается с правильного худи.',
+    material: 'Состав: 65% хлопок, 35% полиэстер · Плотность: 320 г/м²',
+    images: ['images/hoodie-yellow.jpg'],
+    colors: [
+      { name: 'Жёлтый', hex: '#F5E97A', images: ['images/hoodie-yellow.jpg'] },
+      { name: 'Графит', hex: '#2B2D3A', images: ['images/hoodie-graphite.jpg'] },
+    ],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    sizeChart: {
+      headers: ['Размер', 'Грудь (см)', 'Длина (см)', 'Рукав (см)'],
+      rows: [
+        ['XS–S',   '86–94',  '62–65', '60–62'],
+        ['M–L',   '94–102', '65–68', '63–64'],
+        ['XL–XXL','102–110','68–72', '65–66'],
+      ],
+    },
+  },
+  {
     id: 'longsleeve',
     name: 'Лонгслив',
     category: 'Рашгард с длинным рукавом',
@@ -95,26 +118,25 @@ const products = [
     gender: 'unisex',
     description: 'Компрессия, которая реально работает. Анатомический крой обнимает мышцы, снижает усталость, держит тепло в прохладную погоду. Тренируйся дольше.',
     material: 'Состав: 88% полиэстер, 12% эластан · Плотность: 180 г/м²',
-    images: [
-      'images/longsleeve-graphite-2.png',
-      'images/longsleeve-graphite-1.png',
-      'images/longsleeve-blue-2.png',
-      'images/longsleeve-blue-1.png',
-    ],
+    images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'],
     colors: [
-      { name: 'Графит', hex: '#5A6472' },
-      { name: 'Голубой', hex: '#B8D4E8' },
+      { name: 'Графит', hex: '#5A6472', images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'] },
+      { name: 'Голубой', hex: '#B8D4E8', images: ['images/longsleeve-blue-2.png', 'images/longsleeve-blue-1.png'] },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     sizeChart: {
-      headers: ['Размер', 'Грудь (см)', 'Длина (см)', 'Рукав (см)'],
-      rows: [
-        ['XS', '82–86',  '64', '58'],
-        ['S',  '86–90',  '66', '60'],
-        ['M',  '90–94',  '68', '62'],
-        ['L',  '94–98',  '70', '63'],
-        ['XL', '98–102', '72', '64'],
-        ['XXL','102–106','74', '65'],
+      type: 'html',
+      sections: [
+        {
+          title: 'Мужские размеры',
+          headers: ['Размер', 'Обхват груди', 'Длина'],
+          rows: [['XS–S', '86–92 см', '64–66 см'], ['M–L', '92–100 см', '68–70 см'], ['XL–XXL', '100–108 см', '72–74 см']],
+        },
+        {
+          title: 'Женские размеры',
+          headers: ['Размер', 'Обхват груди', 'Длина'],
+          rows: [['XS–S', '80–88 см', '62–64 см'], ['M–L', '88–96 см', '66–68 см'], ['XL–XXL', '96–104 см', '70–72 см']],
+        },
       ],
     },
   },
@@ -178,35 +200,42 @@ function renderCatalog() {
 let currentImages = [];
 let currentImgIndex = 0;
 let currentSizeChartImage = 'images/size-chart.png';
+let currentProduct = null;
+
+function renderGallery(images) {
+  currentImages = images;
+  currentImgIndex = 0;
+  const imgBox = document.getElementById('detailImgBox');
+  imgBox.innerHTML = `
+    <img id="modalMainImg" src="${images[0]}" alt="" onclick="openLightbox(currentImgIndex)" title="Нажмите для увеличения">
+    ${images.length > 1 ? `
+      <button class="gallery__arrow gallery__arrow--prev" onclick="galleryNav(-1)">&#8249;</button>
+      <button class="gallery__arrow gallery__arrow--next" onclick="galleryNav(1)">&#8250;</button>
+    ` : ''}
+  `;
+  const thumbsEl = document.getElementById('detailThumbs');
+  thumbsEl.innerHTML = images.length > 1 ? images.map((src, i) => `
+    <img class="detail-thumb ${i === 0 ? 'active' : ''}" src="${src}" onclick="goToImg(${i})">
+  `).join('') : '';
+}
 
 function openModal(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
 
-  currentImages = p.images;
+  currentProduct = p;
   currentImgIndex = 0;
-  currentSizeChartImage = p.sizeChartImage || 'images/size-chart.png';
+  currentSizeChartImage = p.sizeChartImage || null;
 
-  // Image box: first image + arrows
-  const imgBox = document.getElementById('detailImgBox');
-  imgBox.innerHTML = `
-    <img id="modalMainImg" src="${p.images[0]}" alt="${p.name}" onclick="openLightbox(currentImgIndex)" title="Нажмите для увеличения">
-    ${p.images.length > 1 ? `
-      <button class="gallery__arrow gallery__arrow--prev" onclick="galleryNav(-1)">&#8249;</button>
-      <button class="gallery__arrow gallery__arrow--next" onclick="galleryNav(1)">&#8250;</button>
-    ` : ''}
-  `;
-
-  // Thumbnails
-  const thumbsEl = document.getElementById('detailThumbs');
-  thumbsEl.innerHTML = p.images.length > 1 ? p.images.map((src, i) => `
-    <img class="detail-thumb ${i === 0 ? 'active' : ''}" src="${src}" alt="${p.name} ${i+1}" onclick="goToImg(${i})">
-  `).join('') : '';
+  // Use first color's images if defined, else product images
+  const defaultImages = (p.colors[0] && p.colors[0].images) ? p.colors[0].images : p.images;
+  renderGallery(defaultImages);
 
   // Info panel
   const colorsHTML = p.colors.map((c, i) =>
     `<button class="color-opt${c.border ? ' white-border' : ''}${i === 0 ? ' active' : ''}"
        style="background:${c.hex}" title="${c.name}"
+       data-color-idx="${i}"
        onclick="selectColor(this, '${c.name}')"></button>`
   ).join('');
 
@@ -260,12 +289,42 @@ function goToImg(index) {
 }
 
 function openLightbox(index) {
-  const src = index === -1 ? currentSizeChartImage : currentImages[index];
   const lb = document.getElementById('lightbox');
-  document.getElementById('lightboxImg').src = src;
+  const lbImg = document.getElementById('lightboxImg');
+  const lbChart = document.getElementById('lightboxChart');
+
+  if (index === -1) {
+    // Size chart
+    lb.querySelectorAll('.lb__arrow').forEach(a => a.style.display = 'none');
+    if (currentSizeChartImage) {
+      lbImg.src = currentSizeChartImage;
+      lbImg.style.display = 'block';
+      lbChart.style.display = 'none';
+    } else if (currentProduct && currentProduct.sizeChart && currentProduct.sizeChart.type === 'html') {
+      lbImg.style.display = 'none';
+      lbChart.style.display = 'block';
+      lbChart.innerHTML = currentProduct.sizeChart.sections.map(s => `
+        <div class="lb__chart-section">
+          <h3 class="lb__chart-title">${s.title}</h3>
+          <table class="lb__chart-table">
+            <thead><tr>${s.headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+            <tbody>${s.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+          </table>
+        </div>
+      `).join('');
+    } else {
+      lbImg.src = 'images/size-chart.png';
+      lbImg.style.display = 'block';
+      lbChart.style.display = 'none';
+    }
+  } else {
+    lbImg.src = currentImages[index];
+    lbImg.style.display = 'block';
+    lbChart.style.display = 'none';
+    lb.querySelectorAll('.lb__arrow').forEach(a => a.style.display = '');
+    currentImgIndex = index;
+  }
   lb.classList.add('active');
-  lb.querySelectorAll('.lb__arrow').forEach(a => a.style.display = index === -1 ? 'none' : '');
-  if (index !== -1) currentImgIndex = index;
 }
 
 function closeLightbox() {
@@ -283,6 +342,12 @@ function selectColor(btn, name) {
   btn.classList.add('active');
   const label = document.getElementById('colorLabel');
   if (label) label.textContent = name;
+  // Switch gallery if this color has its own images
+  if (currentProduct) {
+    const idx = parseInt(btn.dataset.colorIdx);
+    const color = currentProduct.colors[idx];
+    if (color && color.images && color.images.length) renderGallery(color.images);
+  }
 }
 
 function selectSize(btn) {
