@@ -517,11 +517,8 @@ async function submitOrder() {
         `Имя: ${name}\n` +
         `📱 Телефон: ${phone}\n` +
         `✈️ Telegram: ${telegram}`;
-      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text }),
-      });
+      const params = new URLSearchParams({ chat_id: TELEGRAM_CHAT_ID, text });
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?${params}`);
     }
   } catch (e) {
     // show success regardless
