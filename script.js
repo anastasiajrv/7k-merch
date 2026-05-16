@@ -1,4 +1,4 @@
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxGaYFJhEseRYp9pJzjGJDAgpzE24YDlAx3LNdbGZxRCjnN9lFVop0tepaWEt7wM-nM/exec';
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzXnE_g5wj5ODJhYDbODVKBaTA21P0crra6yfqpgFo_ouyAKToJ-L7a0Aq6dkeM5V7p/exec';
 const TELEGRAM_BOT_TOKEN = '8685610519:AAGlNvOxsRSVCgick7m1ytMbVM3og9lzB1s';
 const TELEGRAM_CHAT_ID = '-1003728407790';
 
