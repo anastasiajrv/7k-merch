@@ -48,6 +48,7 @@ const products = [
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     sizeChartMen:   { headers: STD_CHART_HEADERS, rows: STD_MEN_ROWS },
     sizeChartWomen: null,
+    sizeChartImageMen: 'images/size-chart-shorts-men.jpg',
   },
   {
     id: 'shorts',
@@ -62,6 +63,7 @@ const products = [
     colors: [{ name: 'Чёрный', hex: '#111111' }],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     sizeChartMen: null,
+    sizeChartImageWomen: 'images/size-chart-shorts-women.jpg',
     sizeChartWomen: {
       headers: ['Размер', 'Талия (см)', 'Бёдра (см)', 'Длина (см)'],
       rows: [
@@ -88,6 +90,7 @@ const products = [
     sizes: ['One size'],
     sizeChartMen: null,
     sizeChartWomen: null,
+    noSizeChart: true,
   },
   {
     id: 'hoodie',
@@ -124,6 +127,8 @@ const products = [
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     sizeChartMen:   { headers: STD_CHART_HEADERS, rows: STD_MEN_ROWS },
     sizeChartWomen: { headers: STD_CHART_HEADERS, rows: STD_WOMEN_ROWS },
+    sizeChartImageMen:   'images/size-chart-longsleeve-men.jpg',
+    sizeChartImageWomen: 'images/size-chart-longsleeve-women.jpg',
   },
 ];
 
@@ -144,8 +149,8 @@ function setFilter(btn, filter) {
 function renderCatalog() {
   const grid = document.getElementById('productsGrid');
   const filtered = activeFilter === 'all' ? products
-    : activeFilter === 'women' ? products.filter(p => p.gender === 'women')
-    : products.filter(p => p.gender === 'men' || p.gender === 'unisex');
+    : activeFilter === 'women' ? products.filter(p => p.gender !== 'men')
+    : products.filter(p => p.gender !== 'women');
 
   grid.innerHTML = filtered.map(p => `
     <article class="product-card" onclick="openModal('${p.id}')">
@@ -255,7 +260,7 @@ function openModal(id) {
     <div class="modal__order">
       <div class="modal__order-buttons">
         <button class="btn btn--order btn--order-disabled" id="orderBtn" onclick="openOrderModal()" disabled>Заказать</button>
-        <button class="btn btn--size-chart${sizeChartEnabled ? '' : ' btn--size-chart-disabled'}" id="sizeChartBtn" onclick="openLightbox(-1)"${sizeChartEnabled ? '' : ' disabled'}>Размерная сетка</button>
+        ${!p.noSizeChart ? `<button class="btn btn--size-chart${sizeChartEnabled ? '' : ' btn--size-chart-disabled'}" id="sizeChartBtn" onclick="openLightbox(-1)"${sizeChartEnabled ? '' : ' disabled'}>Размерная сетка</button>` : ''}
       </div>
       <p class="modal__order-note">Мы свяжемся с вами для уточнения деталей заказа</p>
     </div>
@@ -301,12 +306,18 @@ function openLightbox(index) {
     lbImg.style.display = 'none';
     lbChart.style.display = 'block';
 
-    const chart = modalState.gender === 'men'
+    const isMen = modalState.gender === 'men';
+    const chartImage = isMen
+      ? currentProduct?.sizeChartImageMen
+      : currentProduct?.sizeChartImageWomen;
+    const chart = isMen
       ? currentProduct?.sizeChartMen
       : currentProduct?.sizeChartWomen;
 
-    if (chart) {
-      const title = modalState.gender === 'men' ? 'Мужской размерный ряд' : 'Женский размерный ряд';
+    if (chartImage) {
+      lbChart.innerHTML = `<img src="${chartImage}" style="max-width:100%;max-height:80vh;border-radius:8px;display:block;margin:0 auto" alt="Размерная сетка">`;
+    } else if (chart) {
+      const title = isMen ? 'Мужской размерный ряд' : 'Женский размерный ряд';
       lbChart.innerHTML = `
         <div class="lb__chart-section">
           <div class="lb__chart-title">${title}</div>
@@ -564,7 +575,7 @@ function updateStickyOrder() {
   }
   sticky.innerHTML = `
     <button class="btn btn--order btn--order-disabled" id="mobileStickyOrderBtn" onclick="openOrderModal()" disabled>Заказать</button>
-    <button class="btn btn--size-chart" onclick="openLightbox(-1)">Размеры</button>
+    ${!currentProduct?.noSizeChart ? `<button class="btn btn--size-chart" onclick="openLightbox(-1)">Размеры</button>` : ''}
   `;
   sticky.style.display = 'flex';
 }
