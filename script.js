@@ -40,7 +40,7 @@ const products = [
     category: 'Спортивные шорты · Мужские',
     badge: null,
     gender: 'men',
-    price: '3 490 ₸',
+    price: '3 200 ₽',
     description: 'Лёгкие беговые шорты с эластичным поясом и шнурком. Свободный крой не сковывает движения. Для зала, улицы и любой тренировки.',
     material: 'Состав: 100% полиэстер · Плотность: 130 г/м²',
     images: ['images/shorts-men-front.png', 'images/shorts-men-back.png'],
@@ -56,7 +56,7 @@ const products = [
     category: 'Спортивные шорты · Женские',
     badge: null,
     gender: 'women',
-    price: '3 490 ₸',
+    price: '3 000 ₽',
     description: 'Созданы для тех, кто не останавливается. Цельнокроеный пояс держит форму, эластичная ткань движется вместе с тобой.',
     material: 'Состав: 85% полиэстер, 15% эластан · Плотность: 130 г/м²',
     images: ['images/shorts-front.png', 'images/shorts-back.png'],
@@ -82,7 +82,7 @@ const products = [
     category: 'Аксессуары',
     badge: null,
     gender: 'unisex',
-    price: '8 990 ₸',
+    price: '5 700 ₽',
     description: 'Вместительный городской рюкзак с фирменным принтом. Для тренировок, поездок и повседневной жизни.',
     material: 'Материал: полиэстер 600D · Объём: 25 л',
     images: ['images/backpack-white.jpg'],
@@ -91,6 +91,7 @@ const products = [
     sizeChartMen: null,
     sizeChartWomen: null,
     noSizeChart: true,
+    noGender: true,
   },
   {
     id: 'hoodie',
@@ -98,7 +99,7 @@ const products = [
     category: 'Спортивное худи',
     badge: null,
     gender: 'unisex',
-    price: '7 990 ₸',
+    price: '6 950 ₽',
     description: 'После финиша. Перед стартом. Всегда в ходу. Мягкий флис, фирменный принт на груди, свободный крой.',
     material: 'Состав: 65% хлопок, 35% полиэстер · Плотность: 320 г/м²',
     images: ['images/hoodie-yellow.jpg'],
@@ -116,7 +117,7 @@ const products = [
     category: 'Рашгард с длинным рукавом',
     badge: null,
     gender: 'unisex',
-    price: '4 990 ₸',
+    price: '3 700 ₽',
     description: 'Компрессия, которая реально работает. Анатомический крой обнимает мышцы, снижает усталость.',
     material: 'Состав: 88% полиэстер, 12% эластан · Плотность: 180 г/м²',
     images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'],
@@ -204,7 +205,7 @@ function openModal(id) {
   currentImgIndex = 0;
   modalState = {
     color: p.colors[0].name,
-    gender: p.gender === 'unisex' ? null : p.gender,
+    gender: p.noGender ? 'unisex' : (p.gender === 'unisex' ? null : p.gender),
     size: null,
   };
 
@@ -219,7 +220,9 @@ function openModal(id) {
   ).join('');
 
   let genderHTML;
-  if (p.gender === 'men') {
+  if (p.noGender) {
+    genderHTML = '';
+  } else if (p.gender === 'men') {
     genderHTML = `
       <div class="modal__section-label">Пол</div>
       <div class="modal__gender">
@@ -262,7 +265,7 @@ function openModal(id) {
         <button class="btn btn--order btn--order-disabled" id="orderBtn" onclick="openOrderModal()" disabled>Заказать</button>
         ${!p.noSizeChart ? `<button class="btn btn--size-chart${sizeChartEnabled ? '' : ' btn--size-chart-disabled'}" id="sizeChartBtn" onclick="openLightbox(-1)"${sizeChartEnabled ? '' : ' disabled'}>Размерная сетка</button>` : ''}
       </div>
-      <p class="modal__order-note">Мы свяжемся с вами для уточнения деталей заказа</p>
+      <p class="modal__order-note">Мы свяжемся с вами для подтверждения заказа и уточнения сроков изготовления и доставки</p>
     </div>
   `;
 
@@ -409,7 +412,7 @@ function updateOrderButton() {
 function openOrderModal() {
   if (!currentProduct || !modalState.color || !modalState.gender || !modalState.size) return;
   const p = currentProduct;
-  const genderLabel = modalState.gender === 'men' ? 'Мужской' : 'Женский';
+  const genderLabel = modalState.gender === 'men' ? 'Мужской' : modalState.gender === 'women' ? 'Женский' : '';
 
   document.getElementById('orderModalContent').innerHTML = `
     <button class="order-modal__close" onclick="closeOrderModal()">
@@ -421,7 +424,7 @@ function openOrderModal() {
     <div class="order-modal__summary">
       <div class="order-modal__summary-row"><span class="om-label">Товар</span><span class="om-value">${p.name}</span></div>
       <div class="order-modal__summary-row"><span class="om-label">Цвет</span><span class="om-value">${modalState.color}</span></div>
-      <div class="order-modal__summary-row"><span class="om-label">Пол</span><span class="om-value">${genderLabel}</span></div>
+      ${genderLabel ? `<div class="order-modal__summary-row"><span class="om-label">Пол</span><span class="om-value">${genderLabel}</span></div>` : ''}
       <div class="order-modal__summary-row"><span class="om-label">Размер</span><span class="om-value">${modalState.size}</span></div>
       <div class="order-modal__summary-row"><span class="om-label">Цена</span><span class="om-value om-price">${p.price}</span></div>
     </div>
@@ -471,7 +474,7 @@ async function submitOrder() {
   const name        = (document.getElementById('om-name')?.value     || '').trim();
   const phone       = (document.getElementById('om-phone')?.value    || '').trim();
   const telegram    = (document.getElementById('om-telegram')?.value || '').trim();
-  const genderLabel = modalState.gender === 'men' ? 'Мужской' : 'Женский';
+  const genderLabel = modalState.gender === 'men' ? 'Мужской' : modalState.gender === 'women' ? 'Женский' : '';
 
   const payload = {
     product: p.name,
