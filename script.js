@@ -35,65 +35,6 @@ function makeThumb(bg, fg, label) {
 
 const products = [
   {
-    id: 'shorts-men',
-    name: 'Мужские шорты',
-    category: 'Спортивные шорты · Мужские',
-    badge: null,
-    gender: 'men',
-    price: '3 200 ₽',
-    description: 'Лёгкие беговые шорты с эластичным поясом и шнурком. Свободный крой не сковывает движения. Для зала, улицы и любой тренировки.',
-    material: 'Состав: 100% полиэстер · Плотность: 130 г/м²',
-    images: ['images/shorts-men-front.png', 'images/shorts-men-back.png'],
-    colors: [{ name: 'Чёрный', hex: '#111111' }],
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    sizeChartMen:   { headers: STD_CHART_HEADERS, rows: STD_MEN_ROWS },
-    sizeChartWomen: null,
-    sizeChartImageMen: 'images/size-chart-shorts-men.jpg',
-  },
-  {
-    id: 'shorts',
-    name: 'Женские шорты',
-    category: 'Спортивные шорты · Женские',
-    badge: null,
-    gender: 'women',
-    price: '3 000 ₽',
-    description: 'Созданы для тех, кто не останавливается. Цельнокроеный пояс держит форму, эластичная ткань движется вместе с тобой.',
-    material: 'Состав: 85% полиэстер, 15% эластан · Плотность: 130 г/м²',
-    images: ['images/shorts-front.png', 'images/shorts-back.png'],
-    colors: [{ name: 'Чёрный', hex: '#111111' }],
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    sizeChartMen: null,
-    sizeChartImageWomen: 'images/size-chart-shorts-women.jpg',
-    sizeChartWomen: {
-      headers: ['Размер', 'Талия (см)', 'Бёдра (см)', 'Длина (см)'],
-      rows: [
-        ['XS',  '60–64', '86–90',   '38'],
-        ['S',   '64–68', '90–94',   '40'],
-        ['M',   '68–72', '94–98',   '42'],
-        ['L',   '72–76', '98–102',  '44'],
-        ['XL',  '76–80', '102–106', '46'],
-        ['XXL', '80–84', '106–110', '48'],
-      ],
-    },
-  },
-  {
-    id: 'backpack',
-    name: 'Рюкзак',
-    category: 'Аксессуары',
-    badge: null,
-    gender: 'unisex',
-    price: '5 700 ₽',
-    description: 'Вместительный городской рюкзак с фирменным принтом. Для тренировок, поездок и повседневной жизни.',
-    material: 'Модель rolltop — очень вместительная, ткань водонепроницаемая<br>ДхШхВ: 410×300×140 мм<br>Вес: 820 г',
-    images: ['images/backpack-white.jpg'],
-    colors: [{ name: 'Чёрный', hex: '#111111' }],
-    sizes: ['One size'],
-    sizeChartMen: null,
-    sizeChartWomen: null,
-    noSizeChart: true,
-    noGender: true,
-  },
-  {
     id: 'hoodie',
     name: 'Худи',
     category: 'Спортивное худи',
@@ -130,6 +71,65 @@ const products = [
     sizeChartWomen: { headers: STD_CHART_HEADERS, rows: STD_WOMEN_ROWS },
     sizeChartImageMen:   'images/size-chart-longsleeve-men.jpg',
     sizeChartImageWomen: 'images/size-chart-longsleeve-women.jpg',
+  },
+  {
+    id: 'shorts-men',
+    name: 'Мужские шорты',
+    category: 'Спортивные шорты · Мужские',
+    badge: null,
+    gender: 'men',
+    price: '3 200 ₽',
+    description: 'Лёгкие беговые шорты с эластичным поясом и шнурком. Свободный крой не сковывает движения. Для зала, улицы и любой тренировки.',
+    material: 'Состав: 100% полиэстер · Плотность: 130 г/м²',
+    images: ['images/shorts-men-front.png', 'images/shorts-men-back.png'],
+    colors: [{ name: 'Чёрный', hex: '#111111' }],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    sizeChartMen:   { headers: STD_CHART_HEADERS, rows: STD_MEN_ROWS },
+    sizeChartWomen: null,
+    sizeChartImageMen: 'images/size-chart-shorts-men.jpg',
+  },
+  {
+    id: 'backpack',
+    name: 'Рюкзак',
+    category: 'Аксессуары',
+    badge: null,
+    gender: 'unisex',
+    price: '5 700 ₽',
+    description: 'Вместительный городской рюкзак с фирменным принтом. Для тренировок, поездок и повседневной жизни.',
+    material: 'Модель rolltop — очень вместительная, ткань водонепроницаемая<br>ДхШхВ: 410×300×140 мм<br>Вес: 820 г',
+    images: ['images/backpack-white.jpg'],
+    colors: [{ name: 'Чёрный', hex: '#111111' }],
+    sizes: ['One size'],
+    sizeChartMen: null,
+    sizeChartWomen: null,
+    noSizeChart: true,
+    noGender: true,
+  },
+  {
+    id: 'shorts',
+    name: 'Женские шорты',
+    category: 'Спортивные шорты · Женские',
+    badge: null,
+    gender: 'women',
+    price: '3 000 ₽',
+    description: 'Созданы для тех, кто не останавливается. Цельнокроеный пояс держит форму, эластичная ткань движется вместе с тобой.',
+    material: 'Состав: 85% полиэстер, 15% эластан · Плотность: 130 г/м²',
+    images: ['images/shorts-front.png', 'images/shorts-back.png'],
+    colors: [{ name: 'Чёрный', hex: '#111111' }],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    sizeChartMen: null,
+    sizeChartImageWomen: 'images/size-chart-shorts-women.jpg',
+    sizeChartWomen: {
+      headers: ['Размер', 'Талия (см)', 'Бёдра (см)', 'Длина (см)'],
+      rows: [
+        ['XS',  '60–64', '86–90',   '38'],
+        ['S',   '64–68', '90–94',   '40'],
+        ['M',   '68–72', '94–98',   '42'],
+        ['L',   '72–76', '98–102',  '44'],
+        ['XL',  '76–80', '102–106', '46'],
+        ['XXL', '80–84', '106–110', '48'],
+      ],
+    },
   },
 ];
 
@@ -278,8 +278,6 @@ function openModal(id) {
 
 function closeDetail() {
   document.getElementById('detailPanel').classList.remove('open');
-  const sticky = document.getElementById('mobileStickyOrder');
-  if (sticky) sticky.style.display = 'none';
 }
 
 function galleryNav(dir) {
@@ -401,7 +399,7 @@ function selectSize(btn) {
 
 function updateOrderButton() {
   const ready = !!(modalState.color && modalState.gender && modalState.size);
-  [document.getElementById('orderBtn'), document.getElementById('mobileStickyOrderBtn')].forEach(btn => {
+  [document.getElementById('orderBtn')].forEach(btn => {
     if (!btn) return;
     btn.disabled = !ready;
     btn.classList.toggle('btn--order-disabled', !ready);
@@ -568,17 +566,4 @@ renderCatalog();
 })();
 
 // ===== MOBILE STICKY ORDER BUTTON =====
-function updateStickyOrder() {
-  let sticky = document.getElementById('mobileStickyOrder');
-  if (!sticky) {
-    sticky = document.createElement('div');
-    sticky.id = 'mobileStickyOrder';
-    sticky.className = 'mobile-sticky-order';
-    document.body.appendChild(sticky);
-  }
-  sticky.innerHTML = `
-    <button class="btn btn--order btn--order-disabled" id="mobileStickyOrderBtn" onclick="openOrderModal()" disabled>Заказать</button>
-    ${!currentProduct?.noSizeChart ? `<button class="btn btn--size-chart" onclick="openLightbox(-1)">Размеры</button>` : ''}
-  `;
-  sticky.style.display = 'flex';
-}
+function updateStickyOrder() {}
