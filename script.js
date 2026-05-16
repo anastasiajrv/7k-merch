@@ -265,7 +265,7 @@ function openModal(id) {
         <button class="btn btn--order btn--order-disabled" id="orderBtn" onclick="openOrderModal()" disabled>Заказать</button>
         ${!p.noSizeChart ? `<button class="btn btn--size-chart${sizeChartEnabled ? '' : ' btn--size-chart-disabled'}" id="sizeChartBtn" onclick="openLightbox(-1)"${sizeChartEnabled ? '' : ' disabled'}>Размерная сетка</button>` : ''}
       </div>
-      <p class="modal__order-note">Мы свяжемся с вами для подтверждения заказа и уточнения сроков изготовления и доставки</p>
+      <p class="modal__order-note">Наш менеджер свяжется с вами для подтверждения заказа и уточнения сроков изготовления и доставки.</p>
     </div>
   `;
 
@@ -508,7 +508,7 @@ async function submitOrder() {
     <div class="order-modal__success">
       <div class="order-modal__success-icon">🎉</div>
       <h3>Спасибо за заказ!</h3>
-      <p>Наш менеджер свяжется с вами для решения вопросов по оплате и доставке</p>
+      <p>Наш менеджер свяжется с вами для подтверждения заказа и уточнения сроков изготовления и доставки.</p>
       <button class="btn btn--order" onclick="closeOrderModal(); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Вернуться в магазин</button>
     </div>
   `;
