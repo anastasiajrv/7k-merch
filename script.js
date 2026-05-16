@@ -163,6 +163,7 @@ function renderCatalog() {
         </div>
       </div>
       <div class="product-card__info">
+        <div class="product-card__cat">${p.category}</div>
         <div class="product-card__name">${p.name}</div>
         <div class="product-card__dots">
           ${p.colors.map(c => `<span class="color-dot${c.border ? ' color-dot--bordered' : ''}" style="background:${c.hex}" title="${c.name}"></span>`).join('')}
