@@ -1,6 +1,4 @@
 const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzXnE_g5wj5ODJhYDbODVKBaTA21P0crra6yfqpgFo_ouyAKToJ-L7a0Aq6dkeM5V7p/exec';
-const TELEGRAM_BOT_TOKEN = '8685610519:AAGlNvOxsRSVCgick7m1ytMbVM3og9lzB1s';
-const TELEGRAM_CHAT_ID = '-1003728407790';
 
 // ===== SIZE CHART DATA =====
 const STD_CHART_HEADERS = ['Размер', 'Грудь (см)', 'Талия (см)', 'Бёдра (см)'];
@@ -501,23 +499,6 @@ async function submitOrder() {
     }
   } catch (e) {
     // show success regardless
-  }
-
-  if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-    const genderLine = genderLabel ? `\nПол: ${genderLabel}` : '';
-    const text =
-      `🛒 Новый заказ!\n\n` +
-      `📦 Товар: ${p.name}\n` +
-      `🎨 Цвет: ${modalState.color}` +
-      genderLine +
-      `\n📏 Размер: ${modalState.size}\n` +
-      `💰 Цена: ${p.price}\n\n` +
-      `👤 Покупатель:\n` +
-      `Имя: ${name}\n` +
-      `📱 Телефон: ${phone}\n` +
-      `✈️ Telegram: ${telegram}`;
-    const params = new URLSearchParams({ chat_id: TELEGRAM_CHAT_ID, text });
-    new Image().src = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?${params}`;
   }
 
   document.getElementById('orderModalContent').innerHTML = `
