@@ -94,7 +94,7 @@ body {
 .hero__title {
   font-family: var(--font-d);
   font-size: clamp(72px, 9vw, 124px);
-  line-height: 0.92;
+  line-height: 1.15;
   letter-spacing: 1px;
   color: var(--white);
   margin-bottom: 30px;
