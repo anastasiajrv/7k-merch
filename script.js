@@ -503,25 +503,21 @@ async function submitOrder() {
     // show success regardless
   }
 
-  try {
-    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-      const genderLine = genderLabel ? `\nПол: ${genderLabel}` : '';
-      const text =
-        `🛒 Новый заказ!\n\n` +
-        `📦 Товар: ${p.name}\n` +
-        `🎨 Цвет: ${modalState.color}` +
-        genderLine +
-        `\n📏 Размер: ${modalState.size}\n` +
-        `💰 Цена: ${p.price}\n\n` +
-        `👤 Покупатель:\n` +
-        `Имя: ${name}\n` +
-        `📱 Телефон: ${phone}\n` +
-        `✈️ Telegram: ${telegram}`;
-      const params = new URLSearchParams({ chat_id: TELEGRAM_CHAT_ID, text });
-      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?${params}`);
-    }
-  } catch (e) {
-    // show success regardless
+  if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+    const genderLine = genderLabel ? `\nПол: ${genderLabel}` : '';
+    const text =
+      `🛒 Новый заказ!\n\n` +
+      `📦 Товар: ${p.name}\n` +
+      `🎨 Цвет: ${modalState.color}` +
+      genderLine +
+      `\n📏 Размер: ${modalState.size}\n` +
+      `💰 Цена: ${p.price}\n\n` +
+      `👤 Покупатель:\n` +
+      `Имя: ${name}\n` +
+      `📱 Телефон: ${phone}\n` +
+      `✈️ Telegram: ${telegram}`;
+    const params = new URLSearchParams({ chat_id: TELEGRAM_CHAT_ID, text });
+    new Image().src = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?${params}`;
   }
 
   document.getElementById('orderModalContent').innerHTML = `
