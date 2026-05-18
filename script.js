@@ -49,6 +49,10 @@ const products = [
       { name: 'Графит',  hex: '#2B2D3A', images: ['images/hoodie-graphite.jpg'] },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    heights: {
+      men:   ['176', '182', '188'],
+      women: ['164–170', '176–182'],
+    },
     sizeChartMen:   { headers: STD_CHART_HEADERS, rows: STD_MEN_ROWS },
     sizeChartWomen: { headers: STD_CHART_HEADERS, rows: STD_WOMEN_ROWS },
     sizeChartImageMen:   'images/размерная сетка мужское худи.jpg',
@@ -69,6 +73,10 @@ const products = [
       { name: 'Голубой', hex: '#B8D4E8', images: ['images/longsleeve-blue-2.png',     'images/longsleeve-blue-1.png'] },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    heights: {
+      men:   ['176', '182', '188'],
+      women: ['164', '170', '176'],
+    },
     sizeChartMen:   { headers: STD_CHART_HEADERS, rows: STD_MEN_ROWS },
     sizeChartWomen: { headers: STD_CHART_HEADERS, rows: STD_WOMEN_ROWS },
     sizeChartImageMen:   'images/size-chart-longsleeve-men.jpg',
@@ -136,7 +144,7 @@ const products = [
 ];
 
 // ===== MODAL STATE =====
-let modalState = { color: null, gender: null, size: null };
+let modalState = { color: null, gender: null, size: null, height: null };
 
 // ===== FILTER =====
 let activeFilter = 'all';
@@ -251,6 +259,11 @@ function openModal(id) {
   const sizesHTML = p.sizes.map(s =>
     `<button class="size-btn" onclick="selectSize(this)">${s}</button>`
   ).join('');
+  const heightsHTML = p.heights && sizesVisible
+    ? (p.heights[modalState.gender] || []).map(h =>
+        `<button class="size-btn height-btn" onclick="selectHeight(this)">${h}</button>`
+      ).join('')
+    : '';
 
   document.getElementById('detailInfo').innerHTML = `
     <h2 class="modal__name">${p.name}</h2>
@@ -261,6 +274,10 @@ function openModal(id) {
     ${genderHTML}
     <div class="modal__section-label" id="sizeSectionLabel"${sizesVisible ? '' : ' style="display:none"'}>Размер</div>
     <div class="modal__sizes" id="sizesContainer"${sizesVisible ? '' : ' style="display:none"'}>${sizesHTML}</div>
+    ${p.heights ? `
+    <div class="modal__section-label" id="heightSectionLabel"${sizesVisible ? '' : ' style="display:none"'}>Рост</div>
+    <div class="modal__sizes" id="heightsContainer"${sizesVisible ? '' : ' style="display:none"'}>${heightsHTML}</div>
+    ` : ''}
     <div class="modal__order">
       <div class="modal__order-buttons">
         <button class="btn btn--order btn--order-disabled" id="orderBtn" onclick="openOrderModal()" disabled>Заказать</button>
@@ -385,9 +402,28 @@ function selectGender(btn, gender) {
 
   if (prevGender !== gender) {
     modalState.size = null;
+    modalState.height = null;
     document.querySelectorAll('.size-btn').forEach(s => s.classList.remove('active'));
   }
 
+  const heightsContainer = document.getElementById('heightsContainer');
+  const heightSectionLabel = document.getElementById('heightSectionLabel');
+  if (heightsContainer && currentProduct?.heights) {
+    heightsContainer.style.display = '';
+    if (heightSectionLabel) heightSectionLabel.style.display = '';
+    const heights = currentProduct.heights[gender] || [];
+    heightsContainer.innerHTML = heights.map(h =>
+      `<button class="size-btn height-btn" onclick="selectHeight(this)">${h}</button>`
+    ).join('');
+  }
+
+  updateOrderButton();
+}
+
+function selectHeight(btn) {
+  document.querySelectorAll('.height-btn').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  modalState.height = btn.textContent;
   updateOrderButton();
 }
 
@@ -399,7 +435,8 @@ function selectSize(btn) {
 }
 
 function updateOrderButton() {
-  const ready = !!(modalState.color && modalState.gender && modalState.size);
+  const needsHeight = !!(currentProduct && currentProduct.heights);
+  const ready = !!(modalState.color && modalState.gender && modalState.size && (!needsHeight || modalState.height));
   [document.getElementById('orderBtn')].forEach(btn => {
     if (!btn) return;
     btn.disabled = !ready;
@@ -425,6 +462,7 @@ function openOrderModal() {
       <div class="order-modal__summary-row"><span class="om-label">Цвет</span><span class="om-value">${modalState.color}</span></div>
       ${genderLabel ? `<div class="order-modal__summary-row"><span class="om-label">Пол</span><span class="om-value">${genderLabel}</span></div>` : ''}
       <div class="order-modal__summary-row"><span class="om-label">Размер</span><span class="om-value">${modalState.size}</span></div>
+      ${modalState.height ? `<div class="order-modal__summary-row"><span class="om-label">Рост</span><span class="om-value">${modalState.height}</span></div>` : ''}
       <div class="order-modal__summary-row"><span class="om-label">Цена</span><span class="om-value om-price">${p.price}</span></div>
     </div>
     <div class="order-modal__form">
@@ -480,6 +518,7 @@ async function submitOrder() {
     color: modalState.color,
     gender: genderLabel,
     size: modalState.size,
+    height: modalState.height || '',
     price: p.price,
     name,
     phone,
