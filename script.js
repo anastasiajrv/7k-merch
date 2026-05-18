@@ -478,6 +478,10 @@ function openOrderModal() {
         <label for="om-telegram">Ник в Telegram</label>
         <input type="text" id="om-telegram" placeholder="@username" oninput="validateOrderForm()">
       </div>
+      <div class="form-field">
+        <label for="om-address">Адрес отделения СДЭК</label>
+        <input type="text" id="om-address" placeholder="Город, улица, номер отделения" oninput="validateOrderForm()">
+      </div>
       <button class="btn btn--order btn--order-disabled" id="om-submit" onclick="submitOrder()" disabled>Подтвердить заказ</button>
     </div>
   `;
@@ -493,14 +497,11 @@ function validateOrderForm() {
   const name     = (document.getElementById('om-name')?.value     || '').trim();
   const phone    = (document.getElementById('om-phone')?.value    || '').replace(/[\s\-\(\)]/g, '');
   const telegram = (document.getElementById('om-telegram')?.value || '').trim();
-
-  const nameValid     = name.length > 0;
-  const phoneValid    = phone.length > 0;
-  const telegramValid = telegram.length > 0;
+  const address  = (document.getElementById('om-address')?.value  || '').trim();
 
   const btn = document.getElementById('om-submit');
   if (btn) {
-    const valid = nameValid && phoneValid && telegramValid;
+    const valid = name.length > 0 && phone.length > 0 && telegram.length > 0 && address.length > 0;
     btn.disabled = !valid;
     btn.classList.toggle('btn--order-disabled', !valid);
   }
@@ -511,6 +512,7 @@ async function submitOrder() {
   const name        = (document.getElementById('om-name')?.value     || '').trim();
   const phone       = (document.getElementById('om-phone')?.value    || '').trim();
   const telegram    = (document.getElementById('om-telegram')?.value || '').trim();
+  const address     = (document.getElementById('om-address')?.value  || '').trim();
   const genderLabel = modalState.gender === 'men' ? 'Мужской' : modalState.gender === 'women' ? 'Женский' : '';
 
   const payload = {
@@ -523,6 +525,7 @@ async function submitOrder() {
     name,
     phone,
     telegram,
+    address,
     timestamp: new Date().toISOString(),
   };
 

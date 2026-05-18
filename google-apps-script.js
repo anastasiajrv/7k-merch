@@ -1,6 +1,3 @@
-// Google Apps Script — вставь этот код в редактор на script.google.com
-// После вставки: Развернуть → Управление развёртываниями → обновить версию
-
 const TELEGRAM_BOT_TOKEN = '8685610519:AAGlNvOxsRSVCgick7m1ytMbVM3og9lzB1s';
 const TELEGRAM_CHAT_ID   = '-1003728407790';
 
@@ -8,10 +5,28 @@ function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
 
-    // Сохранить в таблицу (если есть)
-    saveToSheet(data);
+    const sheet = SpreadsheetApp
+      .openById('1xB6YHPT6Tjef9RYbruzwfzAwYpZH5egC62BQsKAYcDs')
+      .getActiveSheet();
 
-    // Отправить в Telegram
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(['Дата', 'Товар', 'Цвет', 'Пол', 'Размер', 'Рост', 'Цена', 'Имя', 'Телефон', 'Telegram', 'Адрес СДЭК']);
+    }
+
+    sheet.appendRow([
+      data.timestamp || new Date().toISOString(),
+      data.product   || '',
+      data.color     || '',
+      data.gender    || '',
+      data.size      || '',
+      data.height    || '',
+      data.price     || '',
+      data.name      || '',
+      data.phone     || '',
+      data.telegram  || '',
+      data.address   || '',
+    ]);
+
     sendTelegram(data);
 
   } catch (err) {
@@ -19,7 +34,7 @@ function doPost(e) {
   }
 
   return ContentService
-    .createTextOutput(JSON.stringify({ ok: true }))
+    .createTextOutput(JSON.stringify({ status: 'ok' }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -35,7 +50,8 @@ function sendTelegram(data) {
     '👤 Покупатель:\n' +
     'Имя: ' + data.name + '\n' +
     '📱 Телефон: ' + data.phone + '\n' +
-    '✈️ Telegram: ' + data.telegram;
+    '✈️ Telegram: ' + data.telegram + '\n' +
+    '📍 СДЭК: ' + (data.address || '—');
 
   UrlFetchApp.fetch(
     'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage',
@@ -46,10 +62,4 @@ function sendTelegram(data) {
       muteHttpExceptions: true,
     }
   );
-}
-
-function saveToSheet(data) {
-  // Если хочешь сохранять заказы в Google Sheets — вставь ID таблицы сюда:
-  // const sheet = SpreadsheetApp.openById('YOUR_SHEET_ID').getActiveSheet();
-  // sheet.appendRow([new Date(), data.product, data.color, data.gender, data.size, data.price, data.name, data.phone, data.telegram]);
 }
