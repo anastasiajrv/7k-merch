@@ -114,12 +114,11 @@ body {
   margin-bottom: 40px;
 }
 
-/* логотипы — в центре правой половины */
+/* логотипы — правый нижний угол (диагональ с текстом) */
 .hero__partners {
   position: absolute;
-  right: 8%;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 80px;
+  bottom: 60px;
   display: flex;
   gap: 56px;
   align-items: center;
