@@ -42,7 +42,7 @@ const products = [
     gender: 'unisex',
     price: '5 600 ₽',
     description: 'После финиша. Перед стартом. Всегда в ходу. Мягкий флис, фирменный принт на груди, свободный крой.',
-    material: 'Состав: 65% хлопок, 35% полиэстер · Плотность: 320 г/м²',
+    material: '',
     images: ['images/hoodie-yellow.jpg'],
     colors: [
       { name: 'Жёлтый', hex: '#F5E97A', images: ['images/hoodie-yellow.jpg'] },
@@ -66,7 +66,7 @@ const products = [
     gender: 'unisex',
     price: '3 700 ₽',
     description: 'Компрессия, которая реально работает. Анатомический крой обнимает мышцы, снижает усталость.',
-    material: 'Состав: 88% полиэстер, 12% эластан · Плотность: 180 г/м²',
+    material: '',
     images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'],
     colors: [
       { name: 'Графит',  hex: '#5A6472', images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'] },
@@ -90,7 +90,7 @@ const products = [
     gender: 'men',
     price: '3 200 ₽',
     description: 'Лёгкие беговые шорты с эластичным поясом и шнурком. Свободный крой не сковывает движения. Для зала, улицы и любой тренировки.',
-    material: 'Состав: 100% полиэстер · Плотность: 130 г/м²',
+    material: '',
     images: ['images/shorts-men-front.png', 'images/shorts-men-back.png'],
     colors: [{ name: 'Чёрный', hex: '#111111' }],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
@@ -106,7 +106,7 @@ const products = [
     gender: 'unisex',
     price: '5 700 ₽',
     description: 'Вместительный городской рюкзак с фирменным принтом. Для тренировок, поездок и повседневной жизни.',
-    material: 'Модель rolltop — очень вместительная, ткань водонепроницаемая<br>ДхШхВ: 410×300×140 мм<br>Вес: 820 г',
+    material: '',
     images: ['images/backpack-white.jpg'],
     colors: [{ name: 'Чёрный', hex: '#111111' }],
     sizes: ['One size'],
@@ -123,7 +123,7 @@ const products = [
     gender: 'women',
     price: '3 000 ₽',
     description: 'Созданы для тех, кто не останавливается. Цельнокроеный пояс держит форму, эластичная ткань движется вместе с тобой.',
-    material: 'Состав: 85% полиэстер, 15% эластан · Плотность: 130 г/м²',
+    material: '',
     images: ['images/shorts-front.png', 'images/shorts-back.png'],
     colors: [{ name: 'Чёрный', hex: '#111111' }],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
@@ -268,7 +268,7 @@ function openModal(id) {
   document.getElementById('detailInfo').innerHTML = `
     <h2 class="modal__name">${p.name}</h2>
     <div class="modal__price">${p.price}</div>
-    <div class="modal__material">${p.material}</div>
+    ${p.material ? `<div class="modal__material">${p.material}</div>` : ''}
     <div class="modal__section-label">Цвет <span id="colorLabel">${p.colors[0].name}</span></div>
     <div class="modal__colors">${colorsHTML}</div>
     ${genderHTML}
