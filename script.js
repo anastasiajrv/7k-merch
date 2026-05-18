@@ -106,7 +106,7 @@ const products = [
     gender: 'unisex',
     price: '5 700 ₽',
     description: 'Вместительный городской рюкзак с фирменным принтом. Для тренировок, поездок и повседневной жизни.',
-    material: '',
+    material: 'Модель rolltop — очень вместительная, ткань водонепроницаемая<br>ДхШхВ: 410×300×140 мм<br>Вес: 820 г',
     images: ['images/backpack-white.jpg'],
     colors: [{ name: 'Чёрный', hex: '#111111' }],
     sizes: ['One size'],
