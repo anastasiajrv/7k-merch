@@ -1,4 +1,4 @@
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwZnJ--IxgqSMUd8awXsB0YF3RvY5_B_tmROADspSKFxaKrmS0M3_8jVenX80xyMJYv/exec';
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzzeT27Yvr9108pIM6GcmAbjTw_GihDT5Z4-qrCCENChoUSPUBRExb0wEuyyn-quAgU/exec';
 
 // ===== SIZE CHART DATA =====
 const STD_CHART_HEADERS = ['Размер', 'Грудь (см)', 'Талия (см)', 'Бёдра (см)'];
