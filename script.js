@@ -40,7 +40,7 @@ const products = [
     category: 'Спортивное худи',
     badge: null,
     gender: 'unisex',
-    price: '6 950 ₽',
+    price: '5 600 ₽',
     description: 'После финиша. Перед стартом. Всегда в ходу. Мягкий флис, фирменный принт на груди, свободный крой.',
     material: 'Состав: 65% хлопок, 35% полиэстер · Плотность: 320 г/м²',
     images: ['images/hoodie-yellow.jpg'],
