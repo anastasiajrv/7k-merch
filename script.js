@@ -51,6 +51,8 @@ const products = [
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     sizeChartMen:   { headers: STD_CHART_HEADERS, rows: STD_MEN_ROWS },
     sizeChartWomen: { headers: STD_CHART_HEADERS, rows: STD_WOMEN_ROWS },
+    sizeChartImageMen:   'images/размерная сетка мужское худи.jpg',
+    sizeChartImageWomen: 'images/размерная сетка женское худи.jpg',
   },
   {
     id: 'longsleeve',
