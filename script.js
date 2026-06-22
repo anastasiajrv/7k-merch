@@ -69,8 +69,9 @@ const products = [
     material: '',
     images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'],
     colors: [
-      { name: 'Графит',  hex: '#5A6472', images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'] },
-      { name: 'Голубой', hex: '#B8D4E8', images: ['images/longsleeve-blue-2.png',     'images/longsleeve-blue-1.png'] },
+      { name: 'Графит',    hex: '#5A6472', images: ['images/longsleeve-graphite-2.png', 'images/longsleeve-graphite-1.png'] },
+      { name: 'Голубой',   hex: '#B8D4E8', images: ['images/longsleeve-blue-2.png',     'images/longsleeve-blue-1.png'] },
+      { name: 'Аквамарин', hex: '#2EC4B6', images: ['images/longsleeve-aqua-1.png', 'images/longsleeve-aqua-2.png'] },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     heights: {
